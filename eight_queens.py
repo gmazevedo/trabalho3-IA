@@ -1,3 +1,5 @@
+import random
+
 def evaluate(individual):
     """
     Recebe um indivíduo (lista de inteiros) e retorna o número de ataques
@@ -46,7 +48,16 @@ def mutate(individual, m):
     :param m:int - probabilidade de mutacao
     :return:list - individuo apos mutacao (ou intacto, caso a prob. de mutacao nao seja satisfeita)
     """
-    raise NotImplementedError  # substituir pelo seu codigo
+
+    new_individual = individual
+
+    if(random.random() < m):
+        posi = random.randint(0,7)
+        val = random.randint(1,8)
+
+        new_individual[posi] = val
+
+    return new_individual
 
 
 def run_ga(g, n, k, m, e):
