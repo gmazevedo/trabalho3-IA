@@ -1,5 +1,12 @@
 import numpy as np
 
+#Constantes
+X = 0
+Y = 1
+
+def h(theta_0, theta_1, xi):
+    return theta_0 + theta_1*xi
+
 
 def compute_mse(theta_0, theta_1, data):
     """
@@ -9,7 +16,17 @@ def compute_mse(theta_0, theta_1, data):
     :param data: np.array - matriz com o conjunto de dados, x na coluna 0 e y na coluna 1
     :return: float - o erro quadratico medio
     """
-    raise NotImplementedError  # substituir pelo seu codigo
+    mse = 0
+    somatorio = 0
+    n = len(data)
+
+    for i in range(0, n):
+        h0 = h(theta_0, theta_1, data[i][X])
+        somatorio += pow(h0 - data[i][Y], 2) 
+    
+    mse = (1/n)*somatorio
+
+    return mse
 
 
 def step_gradient(theta_0, theta_1, data, alpha):
@@ -20,8 +37,29 @@ def step_gradient(theta_0, theta_1, data, alpha):
     :param data: np.array - matriz com o conjunto de dados, x na coluna 0 e y na coluna 1
     :param alpha: float - taxa de aprendizado (a.k.a. tamanho do passo)
     :return: float,float - os novos valores de theta_0 e theta_1, respectivamente
-    """
-    raise NotImplementedError  # substituir pelo seu codigo
+    """    
+    #Calculando o novo theta 0
+    somatorio = 0
+    n = len(data)
+
+    for i in range(0, n):
+        h0 = h(theta_0, theta_1, data[i][X])
+        somatorio += h0 - data[i][Y]
+    
+    d_theta_0 = (2/n)*somatorio
+    new_theta_0 = theta_0 - alpha*d_theta_0
+
+    #Calculando o novo theta 1
+    somatorio = 0
+
+    for i in range(0, n):
+        h0 = h(theta_0, theta_1, data[i][X])
+        somatorio += (h0 - data[i][Y])*data[i][X]
+
+    d_theta_1 = (2/n)*somatorio
+    new_theta_1 = theta_1 - alpha*d_theta_1
+
+    return new_theta_0, new_theta_1
 
 
 def fit(data, theta_0, theta_1, alpha, num_iterations):
@@ -40,3 +78,4 @@ def fit(data, theta_0, theta_1, alpha, num_iterations):
     :return: list,list - uma lista com os theta_0 e outra com os theta_1 obtidos ao longo da execução
     """
     raise NotImplementedError  # substituir pelo seu codigo
+
