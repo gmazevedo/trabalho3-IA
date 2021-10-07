@@ -77,5 +77,14 @@ def fit(data, theta_0, theta_1, alpha, num_iterations):
     :param num_iterations: int - numero de épocas/iterações para executar a descida de gradiente
     :return: list,list - uma lista com os theta_0 e outra com os theta_1 obtidos ao longo da execução
     """
-    raise NotImplementedError  # substituir pelo seu codigo
+    theta_0_list = [theta_0]
+    theta_1_list = [theta_1]
+
+    for i in range(num_iterations):
+        theta_0, theta_1 = step_gradient(theta_0, theta_1, data, alpha)
+        theta_0_list.append(theta_0)
+        theta_1_list.append(theta_1)
+
+    return theta_0_list, theta_1_list
+
 
