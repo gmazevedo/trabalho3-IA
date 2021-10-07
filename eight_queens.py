@@ -9,7 +9,19 @@ def evaluate(individual):
     :param individual:list
     :return:int numero de ataques entre rainhas no individuo recebido
     """
-    raise NotImplementedError  # substituir pelo seu codigo
+
+    number_attacks = 0
+
+    for i in range(7):
+        column = i + 1
+        while column <= 7:
+            if (individual[column] == individual[i] + column - i) or (
+                individual[column] == individual[i] - column + i) or (
+                individual[column] == individual[i]):
+                number_attacks += 1
+            column += 1
+
+    return number_attacks
 
 
 def tournament(participants):
@@ -19,7 +31,13 @@ def tournament(participants):
     :param participants:list - lista de individuos
     :return:list melhor individuo da lista recebida
     """
-    raise NotImplementedError  # substituir pelo seu codigo
+    best_participant = participants[0]
+
+    for participant in participants:
+        if evaluate(participant) < evaluate(best_participant):
+            best_participant = participant
+
+    return best_participant
 
 
 def crossover(parent1, parent2, index):
