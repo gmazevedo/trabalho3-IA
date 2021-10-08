@@ -133,10 +133,10 @@ def run_ga(g, n, k, m, e, graph=False):
     max_fit = []
     min_fit = []
     avarage_fit = []
-    n_individuals = []
     
     individuals = generate_individuals(n)
     new_individuals = []
+    cont = 0
 
     for i in range(0, g):
         new_individuals = []
@@ -159,7 +159,9 @@ def run_ga(g, n, k, m, e, graph=False):
         min_fit_local = evaluate(new_individuals[0])
         max_fit_local = min_fit_local
         avarage_fit_local = min_fit_local
-                
+
+        cont += 1
+
         for ind in range(1, len(individuals)):
             fit = evaluate(new_individuals[ind])
 
@@ -170,13 +172,16 @@ def run_ga(g, n, k, m, e, graph=False):
                 min_fit_local = fit
 
             avarage_fit_local += fit
-
+        
         max_fit.append(max_fit_local)
         min_fit.append(min_fit_local)
         avarage_fit.append(avarage_fit_local/len(individuals))   
+
+        if min_fit_local == 0:
+            break
     
     if graph:
-        return top(individuals, 1), [max_fit, min_fit, avarage_fit]
+        return top(individuals, 1), [max_fit, min_fit, avarage_fit, cont]
     else:
         return top(individuals, 1)
 
