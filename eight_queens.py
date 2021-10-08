@@ -94,6 +94,3 @@ def run_ga(g, n, k, m, e):
     :return:list - melhor individuo encontrado
     """
     raise NotImplementedError  # substituir pelo seu codigo
-
-
-crossover([2,4,7,4,8,5,5,2],[3,2,7,5,2,4,1,1],3)
