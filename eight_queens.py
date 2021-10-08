@@ -1,4 +1,5 @@
 import random
+import copy
 
 def evaluate(individual):
     """
@@ -82,8 +83,44 @@ def mutate(individual, m):
 
     return new_individual
 
+def generate_individuals(n):
+    individuals = []
 
-def run_ga(g, n, k, m, e):
+    for i in range(0, n):
+        individuals.append([random.randint(1, 8) for p in range(0, 8)])
+
+    return individuals
+
+def top(individuals, n):
+    copy_individuals = copy.deepcopy(individuals)
+    top_individuals = []
+
+    if(n == 1):
+        best = tournament(copy_individuals)
+        return best
+
+    best = tournament(copy_individuals)
+
+    for i in range(0, n):
+        if len(copy_individuals) == 0:
+            top_individuals.append(best)
+        else:
+            best = tournament(copy_individuals)
+            top_individuals.append(best)
+            copy_individuals.remove(best)
+    
+    return top_individuals
+
+def selecao(individuals, k):
+    part = copy.deepcopy(individuals)
+
+    while(len(part) != k):
+        del part[random.randint(0, len(part)-1)]
+    
+    return top(part, 2)
+
+
+def run_ga(g, n, k, m, e, graph=False):
     """
     Executa o algoritmo genético e retorna o indivíduo com o menor número de ataques entre rainhas
     :param g:int - numero de gerações
@@ -93,4 +130,110 @@ def run_ga(g, n, k, m, e):
     :param e:bool - se vai haver elitismo
     :return:list - melhor individuo encontrado
     """
-    raise NotImplementedError  # substituir pelo seu codigo
+    max_fit = []
+    min_fit = []
+    avarage_fit = []
+    n_individuals = []
+    
+    individuals = generate_individuals(n)
+    new_individuals = []
+
+    for i in range(0, g):
+        new_individuals = []
+
+        if e:
+            new_individuals.append(top(individuals, 1))
+
+        while(len(new_individuals) < n):
+            p1, p2 = selecao(individuals, k)
+
+            o1, o2 = crossover(p1, p2, random.randint(0, 7))
+            o1 = mutate(o1, m)
+            o2 = mutate(o2, m)
+
+            new_individuals.append(o1)
+            new_individuals.append(o2)
+              
+        individuals = new_individuals
+        
+        min_fit_local = evaluate(new_individuals[0])
+        max_fit_local = min_fit_local
+        avarage_fit_local = min_fit_local
+                
+        for ind in range(1, len(individuals)):
+            fit = evaluate(new_individuals[ind])
+
+            if(fit > max_fit_local):
+                max_fit_local = fit
+
+            if(fit < min_fit_local):
+                min_fit_local = fit
+
+            avarage_fit_local += fit
+
+        max_fit.append(max_fit_local)
+        min_fit.append(min_fit_local)
+        avarage_fit.append(avarage_fit_local/len(individuals))   
+    
+    if graph:
+        return top(individuals, 1), [max_fit, min_fit, avarage_fit]
+    else:
+        return top(individuals, 1)
+
+def the_best():
+    best = 10
+    n_bests = 0
+    list_bests = []
+
+    while(n_bests != 5):
+        g, n = random.randint(1,100), random.randint(1,100)
+        if n >= 5:
+            k = random.randint(2,5)
+        else:
+            k = random.randint(1,n)
+        
+        m, e = random.random(), True
+
+        individuals = run_ga(g, n, k, m, e)
+        best = evaluate(individuals)
+
+        if(best == 0):
+            list_bests.append([g, n, k, m, e])
+            n_bests += 1
+            print("Encontrei:", n_bests)
+
+    max_zeros = -1
+    i_max = -1
+
+    for i in range(0, 5):
+        atual = 0
+
+        print("===> ", i)
+        for j in range(0, 10):
+            g, n, k, m, e = list_bests[i]
+            individuals = run_ga(g, n, k, m, e)
+            result = evaluate(individuals)   
+
+            if(result == 0):
+                atual += 1 
+        
+        if(atual > max_zeros):
+            max_zeros = atual
+            i_max = i
+    
+    return list_bests[i_max], max_zeros
+
+'''
+if __name__ == '__main__':
+    parametros, acertos = the_best()
+
+    g, n, k, m, e = parametros
+
+    print("Fui escolhido com ", str(acertos/10)+"% de acertos")
+    print(parametros)
+
+    for i in range(0, 3):
+        individuals = run_ga(g, n, k, m, e)
+        best = evaluate(individuals)
+        print(best, individuals)
+'''
