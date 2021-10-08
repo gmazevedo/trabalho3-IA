@@ -54,7 +54,12 @@ def crossover(parent1, parent2, index):
     :param index:int
     :return:list,list
     """
-    raise NotImplementedError  # substituir pelo seu codigo
+
+    # interchanging the genes
+    for i in range(index, len(parent1)):
+        parent1[i], parent2[i] = parent2[i], parent1[i]
+    
+    return parent1, parent2
 
 
 def mutate(individual, m):
@@ -89,3 +94,6 @@ def run_ga(g, n, k, m, e):
     :return:list - melhor individuo encontrado
     """
     raise NotImplementedError  # substituir pelo seu codigo
+
+
+crossover([2,4,7,4,8,5,5,2],[3,2,7,5,2,4,1,1],3)
