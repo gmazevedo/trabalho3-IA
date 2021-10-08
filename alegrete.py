@@ -18,11 +18,12 @@ def compute_mse(theta_0, theta_1, data):
     """
     mse = 0
     somatorio = 0
-    n = len(data)
+    n = 0
 
-    for i in range(0, n):
-        h0 = h(theta_0, theta_1, data[i][X])
-        somatorio += pow(h0 - data[i][Y], 2) 
+    for i in data:
+        h0 = h(theta_0, theta_1, data[n][X])
+        somatorio += pow(h0 - data[n][Y], 2) 
+        n += 1
     
     mse = (1/n)*somatorio
 
@@ -40,11 +41,12 @@ def step_gradient(theta_0, theta_1, data, alpha):
     """    
     #Calculando o novo theta 0
     somatorio = 0
-    n = len(data)
+    n = 0
 
-    for i in range(0, n):
-        h0 = h(theta_0, theta_1, data[i][X])
-        somatorio += h0 - data[i][Y]
+    for i in data:
+        h0 = h(theta_0, theta_1, data[n][X])
+        somatorio += h0 - data[n][Y]
+        n += 1
     
     d_theta_0 = (2/n)*somatorio
     new_theta_0 = theta_0 - alpha*d_theta_0
