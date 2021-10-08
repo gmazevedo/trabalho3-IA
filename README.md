@@ -31,4 +31,4 @@ Melhor erro quadrático médio obtido: 2.415831513816925
 
 Resultado:
 
-![Alt text](./rlpng.png?raw=true "Gráfico de execução RL")
+![Alt text](./rl.png?raw=true "Gráfico de execução RL")
