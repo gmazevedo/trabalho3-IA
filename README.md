@@ -20,6 +20,8 @@ Por meio destes parâmetros conseguimos 0 ataques em 80% dos testes que fizemos.
 
 ![Alt text](./ga.png?raw=true "Gráfico de execução GA")
 
+Foi feita a otimização de que ao encontrar um indivíduo com fit 0 é encerrada a execução, não há a continuação até o número de gerações máxima.
+
 #### Alegrete:
 Valores iniciais de theta_0, theta_1, valores de alpha e num_iterations que resultem na melhor execução da sua regressão linear:
 - num_iterations = 73
