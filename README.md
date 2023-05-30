@@ -2,9 +2,9 @@
 Este trabalho envolve a implementação de um algoritmo genético para o problema das 8 rainhas. Neste problema, o objetivo final é encontrar configurações do tabuleiro sem ataques entre rainhas. Matematicamente, deseja-se minimizar o número de ataques entre rainhas.
 
 ## Integrantes do grupo
-- Gessica Franciéle Mendonça Azevedo - 302865  - Turma A
-- Rafael Oleques Nunes - 309114 - Turma B
-- Tatiane Sequerra Stivelman - 243681  - Turma B
+- Gessica Franciéle Mendonça Azevedo - Turma A
+- Rafael Oleques Nunes - Turma B
+- Tatiane Sequerra Stivelman - Turma B
 
 ## Implementação - Valores de parâmetros
 
